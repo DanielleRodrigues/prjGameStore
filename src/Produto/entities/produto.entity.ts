@@ -1,5 +1,6 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Categoria } from "src/Categoria/Entities/categoria.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
 
@@ -11,10 +12,20 @@ export class Produto {
 
     @IsNotEmpty()
     @Column({ length: 100, nullable: false })
-    titulo: string;
+    nome: string;
 
     @IsNotEmpty()
     @Column({ length: 300, nullable: false })
     descricao: string;
-    //produto: Produto;
+
+
+    @IsNotEmpty()
+    @Column('decimal', { precision: 5, scale: 2, nullable: false })
+    preco: number;
+
+    @ManyToOne(() => Categoria, (categoria) => categoria.produto,{
+        onDelete: "CASCADE"
+    })
+    categoria: Categoria;
+
 }
